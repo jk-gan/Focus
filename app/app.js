@@ -12,7 +12,7 @@ class App extends React.Component {
       currentSecondCount: 60,
       intervalId: '',
     }
-    this.timer = this.timer.bind(this)
+    this.tick = this.tick.bind(this)
     this.nextMinute = this.nextMinute.bind(this)
     this.onStart = this.onStart.bind(this)
     this.onReset = this.onReset.bind(this)
@@ -30,38 +30,35 @@ class App extends React.Component {
     console.log('componentWillUnmount')
   }
 
-  timer() {
+  tick() {
     // setState method is used to update the state
     let newSecondCount = this.state.currentSecondCount - 1
-    const newMinuteCount = this.state.currentMinuteCount - 1
+
     if(newSecondCount >= 0) {
-      if(this.nextMinute(newSecondCount)) {
+      if(newSecondCount === 0) {
         newSecondCount = 60
+      } else if(this.nextMinute(newSecondCount)) {
+        const newMinuteCount = this.state.currentMinuteCount - 1
         this.setState(
           {
             currentSecondCount: newSecondCount,
             currentMinuteCount: newMinuteCount
           }
         )
-      } else {
-        this.setState({ currentSecondCount: newSecondCount })
       }
+      this.setState({ currentSecondCount: newSecondCount })
     } else {
       clearInterval(this.state.intervalId)
     }
   }
 
   nextMinute(currentSecond) {
-    return currentSecond === 0
+    return currentSecond === 59
   }
-
-  // shouldComponentUpdate() {
-  //   return this.state.counting
-  // }
 
   onStart() {
     if(this.state.intervalId === '') {
-      const intervalId = setInterval(this.timer, 1000)
+      const intervalId = setInterval(this.tick, 1000)
       // store intervalId in the state so it can be accessed later:
       this.setState({intervalId})
     } else {
@@ -86,7 +83,9 @@ class App extends React.Component {
   // render method is most important
   // render method returns JSX template
   render() {
-    const currentCount = `${this.state.currentMinuteCount} : ${this.state.currentSecondCount}`
+    let second = this.state.currentSecondCount === 60 ? '0' : this.state.currentSecondCount
+    second = second < 10 ? `0${second}` : second
+    const currentCount = `${this.state.currentMinuteCount} : ${second}`
     return (
       <div>
         <Timer currentCount={currentCount}/>
