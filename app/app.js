@@ -3,7 +3,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import HelloWorld from './components/helloworld'
+import Timer from './components/Timer/Timer'
 
 class App extends React.Component {
 
@@ -11,7 +11,7 @@ class App extends React.Component {
     // render method returns JSX template
     render() {
         return (
-          <HelloWorld />
+          <Timer />
         );
     }
 }
