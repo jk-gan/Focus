@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "dev": "concurrently \"yarn run watch\" \"yarn start\"" ,
+    "watch": "webpack -w --colors --config ./config/webpack.config.js"
   },
   "license": "MIT",
   "devDependencies": {
@@ -12,6 +14,7 @@
     "babel-loader": "^6.4.1",
     "babel-preset-env": "^1.2.2",
     "babel-preset-react": "^6.23.0",
+    "concurrently": "^3.4.0",
     "css-loader": "^0.27.3",
     "electron": "^1.6.2",
     "sass-loader": "^6.0.3",
