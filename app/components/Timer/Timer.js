@@ -4,15 +4,18 @@ class Timer extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      minutes: 5
+      minutes: 5,
+      seconds: 60
     }
   }
 
   render() {
     // Return JSX via render()
-    const { minutes } = this.state
+    const { minutes, seconds } = this.state
     return (
-      <h1>{minutes}</h1>
+      <div>
+        <h1>{minutes} : {seconds}</h1>
+      </div>
     );
   }
 }
