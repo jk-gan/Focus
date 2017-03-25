@@ -1,5 +1,4 @@
 import React from 'react'
-import Button from '../Button/Button'
 
 class Timer extends React.Component {
   constructor(props) {
@@ -11,8 +10,6 @@ class Timer extends React.Component {
     }
     this.timer = this.timer.bind(this)
     this.nextMinute = this.nextMinute.bind(this)
-    this.onStart  = this.onStart.bind(this)
-    this.onReset = this.onReset.bind(this)
   }
 
   componentDidMount() {
@@ -51,14 +48,6 @@ class Timer extends React.Component {
     return currentSecond === 0
   }
 
-  onStart() {
-    console.log('onStart')
-  }
-
-  onReset() {
-    console.log('onReset')
-  }
-
   render() {
     // Return JSX via render()
     const currentCount = `${this.state.currentMinuteCount} : ${this.state.currentSecondCount}`
@@ -66,8 +55,6 @@ class Timer extends React.Component {
     return (
       <div>
         <h1>{currentCount}</h1>
-        <Button onClick={this.onStart}>Start</Button>
-        <Button onClick={this.onReset}>Reset</Button>
       </div>
     );
   }
