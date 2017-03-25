@@ -1,22 +1,35 @@
 // ES6 Component
-// Import React and ReactDOM
 import React from 'react';
-import ReactDOM from 'react-dom';
-
 import Timer from './components/Timer/Timer'
+import Button from './components/Button/Button'
 
 class App extends React.Component {
+  constructor(props) {
+    super(props)
 
-    // render method is most important
-    // render method returns JSX template
-    render() {
-        return (
+    this.onStart = this.onStart.bind(this)
+    this.onReset = this.onReset.bind(this)
+  }
+
+  onStart() {
+    console.log('onStart')
+  }
+
+  onReset() {
+    console.log('onReset')
+  }
+
+  // render method is most important
+  // render method returns JSX template
+  render() {
+      return (
+        <div>
           <Timer />
-        );
-    }
+          <Button onClick={this.onStart}>Start</Button>
+          <Button onClick={this.onReset}>Reset</Button>
+        </div>
+      );
+  }
 }
 
-// Render to ID content in the DOM
-ReactDOM.render( <App /> ,
-    document.getElementById('content')
-);
+export default App
