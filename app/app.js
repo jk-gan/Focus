@@ -19,10 +19,6 @@ class App extends React.Component {
     this.onPause = this.onPause.bind(this)
   }
 
-  componentDidMount() {
-    console.log('componentDidMount')
-  }
-
   componentWillUnmount() {
     // use intervalId from the state to clear the interval
     clearInterval(this.state.intervalId)
@@ -70,7 +66,7 @@ class App extends React.Component {
   // render method is most important
   // render method returns JSX template
   render() {
-    const { time } = this.state
+    const { time, counting } = this.state
     let minutes = parseInt(time / 60, 10);
     let seconds = parseInt(time % 60, 10);
 
@@ -78,11 +74,15 @@ class App extends React.Component {
     seconds = seconds < 10 ? '0' + seconds : seconds;
 
     const display = `${minutes} : ${seconds}`
+
     return (
       <div>
         <Timer display={display}/>
-        <Button onClick={this.onStart}>Start</Button>
-        <Button onClick={this.onPause}>Pause</Button>
+        {
+          counting
+          ? <Button onClick={this.onPause}>Pause</Button>
+          : <Button onClick={this.onStart}>Start</Button>
+        }
         <Button onClick={this.onReset}>Reset</Button>
       </div>
     );
