@@ -1,4 +1,6 @@
 import React from 'react'
+import cx from 'classnames'
+import styles from './Timer.scss'
 
 class Timer extends React.Component {
   constructor(props) {
@@ -7,9 +9,12 @@ class Timer extends React.Component {
 
   render() {
     // Return JSX via render()
-    const { display } = this.props
+    const { display, className} = this.props
     return (
-      <div>
+      <div className={cx(
+          className,
+          styles.timer
+        )}>
         <h1>{display}</h1>
       </div>
     );

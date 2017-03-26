@@ -2,6 +2,7 @@
 import React from 'react';
 import Timer from './components/Timer/Timer'
 import Button from './components/Button/Button'
+import cx from 'classnames'
 import styles from './app.scss'
 
 class App extends React.Component {
@@ -122,8 +123,8 @@ class App extends React.Component {
     }
 
     return (
-      <div className={appClass}>
-        <Timer display={display}/>
+      <div className={styles.app}>
+        <Timer className={appClass} display={display}/>
         {
           counting
           ? <Button onClick={this.onPause}>Pause</Button>
