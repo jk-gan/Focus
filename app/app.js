@@ -8,15 +8,20 @@ class App extends React.Component {
     super(props)
 
     this.state = {
-      time: 600,
+      time: 1500,
       intervalId: '',
-      counting: false
+      counting: false,
+      tomatoCount: 0,
+      currentStatus: 'Stop'
     }
     this.tick = this.tick.bind(this)
     this.nextMinute = this.nextMinute.bind(this)
     this.onStart = this.onStart.bind(this)
     this.onReset = this.onReset.bind(this)
     this.onPause = this.onPause.bind(this)
+    this.startWorking = this.startWorking.bind(this)
+    this.startShortRest = this.startShortRest.bind(this)
+    this.startLongRest = this.startLongRest.bind(this)
   }
 
   componentWillUnmount() {
@@ -32,8 +37,24 @@ class App extends React.Component {
       this.setState({time: newTime})
     } else {
       clearInterval(this.state.intervalId)
+      switch(this.state.currentStatus) {
+        case 'Start':
+          const newTomatoCount = this.state.tomatoCount + 1
+          this.setState({tomatoCount: newTomatoCount})
+          if(newTomatoCount % 4 === 0) {
+            this.startLongRest()
+          } else {
+            this.startShortRest()
+          }
+          break
+        case 'Short':
+          this.startWorking()
+          break
+        case 'Long':
+          this.startWorking()
+          break
+      }
     }
-
   }
 
   nextMinute(currentSecond) {
@@ -42,25 +63,43 @@ class App extends React.Component {
 
   onStart() {
     if(!this.state.counting) {
-      const intervalId = setInterval(this.tick, 1000)
-      // store intervalId in the state so it can be accessed later:
-      this.setState({intervalId, counting: true})
+      this.startWorking()
     } else {
       console.log("It's running!!!")
     }
   }
 
   onReset() {
-    this.setState(
-      {
-        time: 600
-      }
-    )
+    this.setState({time: 1500})
     this.componentWillUnmount()
   }
 
   onPause() {
     this.componentWillUnmount()
+  }
+
+  startWorking() {
+    this.setState({time: 1500, currentStatus: 'Start'})
+    const intervalId = setInterval(this.tick, 1000)
+    // store intervalId in the state so it can be accessed later:
+    this.setState({intervalId, counting: true})
+    console.log('start working')
+  }
+
+  startShortRest() {
+    this.setState({time: 300, currentStatus: 'Short'})
+    const intervalId = setInterval(this.tick, 1000)
+    // store intervalId in the state so it can be accessed later:
+    this.setState({intervalId, counting: true})
+    console.log('short resting')
+  }
+
+  startLongRest() {
+    this.setState({time: 1200, currentStatus: 'Long'})
+    const intervalId = setInterval(this.tick, 1000)
+    // store intervalId in the state so it can be accessed later:
+    this.setState({intervalId, counting: true})
+    console.log('long resting')
   }
 
   // render method is most important
