@@ -4,7 +4,7 @@ const { readdirSync } = require('fs')
 
 module.exports = {
   entry: [
-    './app/app.js'
+    './app/index.js'
   ],
   output: {
     filename: 'js/bundle.js',
