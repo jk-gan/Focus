@@ -8,9 +8,9 @@ class App extends React.Component {
     super(props)
 
     this.state = {
-      currentMinuteCount: 10,
-      currentSecondCount: 60,
+      time: 600,
       intervalId: '',
+      counting: false
     }
     this.tick = this.tick.bind(this)
     this.nextMinute = this.nextMinute.bind(this)
@@ -26,30 +26,18 @@ class App extends React.Component {
   componentWillUnmount() {
     // use intervalId from the state to clear the interval
     clearInterval(this.state.intervalId)
-    this.setState({intervalId: ''})
+    this.setState({intervalId: '', counting: false})
     console.log('componentWillUnmount')
   }
 
   tick() {
-    // setState method is used to update the state
-    let newSecondCount = this.state.currentSecondCount - 1
-
-    if(newSecondCount >= 0) {
-      if(newSecondCount === 0) {
-        newSecondCount = 60
-      } else if(this.nextMinute(newSecondCount)) {
-        const newMinuteCount = this.state.currentMinuteCount - 1
-        this.setState(
-          {
-            currentSecondCount: newSecondCount,
-            currentMinuteCount: newMinuteCount
-          }
-        )
-      }
-      this.setState({ currentSecondCount: newSecondCount })
+    const newTime = this.state.time - 1
+    if(newTime >= 0) {
+      this.setState({time: newTime})
     } else {
       clearInterval(this.state.intervalId)
     }
+
   }
 
   nextMinute(currentSecond) {
@@ -57,10 +45,10 @@ class App extends React.Component {
   }
 
   onStart() {
-    if(this.state.intervalId === '') {
+    if(!this.state.counting) {
       const intervalId = setInterval(this.tick, 1000)
       // store intervalId in the state so it can be accessed later:
-      this.setState({intervalId})
+      this.setState({intervalId, counting: true})
     } else {
       console.log("It's running!!!")
     }
@@ -69,8 +57,7 @@ class App extends React.Component {
   onReset() {
     this.setState(
       {
-        currentMinuteCount: 10,
-        currentSecondCount: 60
+        time: 600
       }
     )
     this.componentWillUnmount()
@@ -83,12 +70,17 @@ class App extends React.Component {
   // render method is most important
   // render method returns JSX template
   render() {
-    let second = this.state.currentSecondCount === 60 ? '0' : this.state.currentSecondCount
-    second = second < 10 ? `0${second}` : second
-    const currentCount = `${this.state.currentMinuteCount} : ${second}`
+    const { time } = this.state
+    let minutes = parseInt(time / 60, 10);
+    let seconds = parseInt(time % 60, 10);
+
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    seconds = seconds < 10 ? '0' + seconds : seconds;
+
+    const display = `${minutes} : ${seconds}`
     return (
       <div>
-        <Timer currentCount={currentCount}/>
+        <Timer display={display}/>
         <Button onClick={this.onStart}>Start</Button>
         <Button onClick={this.onPause}>Pause</Button>
         <Button onClick={this.onReset}>Reset</Button>

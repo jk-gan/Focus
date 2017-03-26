@@ -7,10 +7,10 @@ class Timer extends React.Component {
 
   render() {
     // Return JSX via render()
-    const { currentCount } = this.props
+    const { display } = this.props
     return (
       <div>
-        <h1>{currentCount}</h1>
+        <h1>{display}</h1>
       </div>
     );
   }
