@@ -2,6 +2,7 @@
 import React from 'react';
 import Timer from './components/Timer/Timer'
 import Button from './components/Button/Button'
+import styles from './app.scss'
 
 class App extends React.Component {
   constructor(props) {
@@ -113,9 +114,15 @@ class App extends React.Component {
     seconds = seconds < 10 ? '0' + seconds : seconds;
 
     const display = `${minutes} : ${seconds}`
+    let appClass = ''
+    if(this.state.currentStatus === 'Start') {
+      appClass = styles.working
+    } else if(this.state.currentStatus === 'Short' || this.state.currentStatus === 'Long') {
+      appClass = styles.resting
+    }
 
     return (
-      <div>
+      <div className={appClass}>
         <Timer display={display}/>
         {
           counting
