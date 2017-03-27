@@ -1,0 +1,24 @@
+@font-face {
+	font-family: "Roboto";
+	src: url("../fonts/Roboto-Light.ttf") format("truetype");
+}
+
+body {
+  font-family: 'Roboto';
+	-webkit-app-region: drag;
+	color: white;
+	height: 459px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  -webkit-user-select: none;
+}
+
+input[type="submit"],
+input[type="reset"],
+input[type="button"],
+input[type="text"],
+button,
+textarea {
+	-webkit-app-region: no-drag;
+}
